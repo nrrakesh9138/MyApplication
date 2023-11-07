@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.INVISIBLE
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         val inputField = findViewById<EditText>(R.id.etName)
         val submitButton = findViewById<Button>(R.id.btnSubmit)
         val offersButton = findViewById<Button>(R.id.btnOffers)
+        val youtubeButton = findViewById<Button>(R.id.btnYoutube)
         var enteredName = ""
         submitButton.setOnClickListener {
             enteredName = inputField.text.toString()
@@ -41,6 +44,27 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SecondActivity::class.java)
             intent.putExtra("user", enteredName)
             startActivity(intent)
+        }
+        youtubeButton.setOnClickListener{
+            val intent = Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.data = Uri.parse("https://www.youtube.com/watch?v=BCSlZIUj18Y&t=9252s&ab_channel=AppDevNotes");
+            intent.setPackage("com.google.android.youtube")
+            try{
+                startActivity(intent);
+            } catch(e:ActivityNotFoundException) {
+                Toast.makeText(this, "There is no package available in android", Toast.LENGTH_LONG).show();
+            }
+//            val location = Uri.parse("geo:0,0?q=Tvam+Technologies+Private,+Limited+Bengaluru,+Karnataka")
+//            val mapIntent = Intent(Intent.ACTION_VIEW, location)
+//
+//            // Try to invoke the intent.
+//            try {
+//                startActivity(mapIntent)
+//            } catch (e: ActivityNotFoundException) {
+//                // Define what your app should do if no activity can handle the intent.
+//            }
+
         }
     }
 }
